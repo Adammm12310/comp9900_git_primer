@@ -2,8 +2,8 @@
 
 > An AI-powered system that investigates whether AI can detect its own lies by providing both fake news generation and multi-model detection capabilities.
 
-[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
-[![Node.js](https://img.shields.io/badge/Node.js-16+-green.svg)](https://nodejs.org/)
+[![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)](https://www.python.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-18+-green.svg)](https://nodejs.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.104+-teal.svg)](https://fastapi.tiangolo.com/)
 [![React](https://img.shields.io/badge/React-19+-61DAFB.svg)](https://reactjs.org/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -56,9 +56,9 @@
 
 ### Prerequisites
 
-- Python 3.8+
-- Node.js 16+
-- Docker (for MongoDB)
+- Python 3.9+
+- Node.js 18+
+- Docker and Docker Compose (for MongoDB)
 - OpenAI API Key
 
 ### Installation
@@ -90,9 +90,10 @@ npm install
 ```bash
 # Terminal 1: Start backend
 cd backend
-python3 main.py
+./start.sh
+# Or manually: python3 main.py
 
-# Terminal 2: Start frontend
+# Terminal 2: Start frontend (from project root)
 npm run dev
 ```
 
@@ -204,7 +205,7 @@ See [API Documentation](docs/API.md) for complete examples.
 
 ## ⚙️ Configuration
 
-### Required Environment Variables
+### Backend Environment Variables
 
 Create `backend/.env` with these required variables:
 
@@ -212,20 +213,47 @@ Create `backend/.env` with these required variables:
 # API Provider (openai or deepseek)
 API_PROVIDER=openai
 
-# OpenAI API Key (Required)
-OPENAI_API_KEY=your_openai_api_key_here
+# DeepSeek API Key
+DEEPSEEK_API_KEY=your_key_here
 
-# MongoDB (default Docker config)
+# OpenAI API Key (Required)
+OPENAI_API_KEY=your_key_here
+
+# Tavily API Key (Optional, for fact verification)
+TAVILY_API_KEY=your_key_here
+USE_TAVILY=true
+
+# MongoDB Configuration
 MONGODB_URL=mongodb://admin:admin123@localhost:27017/fakenews_db?authSource=admin
 
-# Optional: Tavily for fact verification
-TAVILY_API_KEY=your_tavily_api_key_here
+# Logging
+LOG_LEVEL=INFO
+LOG_FILE=logs/fakenews.log
+```
+
+### Frontend Environment Variables
+
+Create `.env` in the project root directory:
+
+```env
+# Firebase Configuration
+VITE_FIREBASE_API_KEY=your_firebase_key
+VITE_FIREBASE_AUTH_DOMAIN=your_auth_domain
+VITE_FIREBASE_PROJECT_ID=your_project_id
+VITE_FIREBASE_APP_ID=your_app_id
+
+# EmailJS Configuration
+VITE_EMAILJS_SERVICE_ID=your_service_id
+VITE_EMAILJS_TEMPLATE_ID=your_template_id
+VITE_EMAILJS_PUBLIC_KEY=your_public_key
 ```
 
 **Get API Keys:**
 - OpenAI: https://platform.openai.com/api-keys
-- Tavily: https://tavily.com/
 - DeepSeek: https://platform.deepseek.com/
+- Tavily: https://tavily.com/
+- Firebase: https://console.firebase.google.com/
+- EmailJS: https://www.emailjs.com/
 
 See [Setup Guide](docs/SETUP.md) for complete configuration options.
 
@@ -265,13 +293,18 @@ See [Troubleshooting Guide](docs/TROUBLESHOOTING.md) for detailed solutions.
 
 ## 📊 System Requirements
 
-**Minimum:**
+**Software:**
+- Python 3.9 or higher
+- Node.js 18+
+- Docker and Docker Compose
+
+**Hardware (Minimum):**
 - CPU: 2 cores
 - RAM: 4GB
 - Storage: 5GB free
 - Internet connection
 
-**Recommended:**
+**Hardware (Recommended):**
 - CPU: 4+ cores
 - RAM: 8GB+
 - Storage: 10GB+ free
