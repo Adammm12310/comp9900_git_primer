@@ -1,342 +1,239 @@
-#Fake News Detection System
+# Fake News Detection System
 
-A comprehensive AI-powered fake news detection and generation system built with React, TypeScript, FastAPI, and multiple ML models. This system investigates whether AI can detect its own lies by providing both fake news generation and multi-model detection capabilities.
+> An AI-powered system that investigates whether AI can detect its own lies by providing both fake news generation and multi-model detection capabilities.
 
-##  Table of Contents
-
-- [Features](#features)
-- [System Architecture](#system-architecture)
-- [Prerequisites](#prerequisites)
-- [Installation](#installation)
-- [Configuration](#configuration)
-- [Running the System](#running-the-system)
-- [Access Points](#access-points)
-- [Testing](#testing)
-- [Troubleshooting](#troubleshooting)
-- [Project Structure](#project-structure)
+[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-16+-green.svg)](https://nodejs.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.104+-teal.svg)](https://fastapi.tiangolo.com/)
+[![React](https://img.shields.io/badge/React-19+-61DAFB.svg)](https://reactjs.org/)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 ---
 
-## ✨ Features
+## 📑 Table of Contents
+
+- [Features](#-features)
+- [Quick Start](#-quick-start)
+- [Documentation](#-documentation)
+- [Architecture](#️-architecture)
+- [Usage Examples](#-usage-examples)
+- [Project Structure](#-project-structure)
+- [Configuration](#️-configuration)
+- [Testing](#-testing)
+- [Troubleshooting](#-troubleshooting)
+- [System Requirements](#-system-requirements)
+- [Access Points](#-access-points)
+- [Security Notes](#-security-notes)
+- [License](#-license)
+- [Team](#-team)
+- [Support](#-support)
+
+---
+
+## 🌟 Features
 
 ### Detection Module
-- **Multi-Model Detection**: Combines GPT-4, RoBERTa, CLIP, and Zero-shot classification
-- **Fact Verification**: Real-time fact checking using Tavily API and Wikipedia
-- **Rhetorical Analysis**: Detects emotional language, loaded terms, and manipulation patterns
-- **Cross-Modal Consistency**: Validates temporal, spatial, and logical consistency
-- **Visual Highlighting**: Highlights problematic sentences in detection results
-- **Detailed Reports**: Provides confidence scores, key factors, and explanations
+- 🤖 **Multi-Model Detection**: Combines GPT-4, RoBERTa, CLIP, and zero-shot classification
+- ✅ **Fact Verification**: Real-time fact checking using Tavily API and Wikipedia
+- 📊 **Rhetorical Analysis**: Detects emotional language and manipulation patterns
+- 🔍 **Visual Highlighting**: Highlights problematic sentences with detailed explanations
 
 ### Generation Module
-- **Multiple Strategies**: 7 different manipulation strategies (loaded language, conspiracy, fabricated evidence, timeline shift, misleading headlines, false urgency, emotional manipulation)
-- **Style Options**: 4 writing styles (formal, sensational, fun, normal)
-- **Domain Support**: 4 topic domains (politics, business, sports, technology)
-- **Auto-Inference**: Automatically infers style and topic from user input
-- **Real News Integration**: Can generate from real news articles via URL or text input
-- **Image Support**: Can generate topics from image descriptions
+- 🎭 **7 Manipulation Strategies**: Loaded language, conspiracy theory, fabricated evidence, and more
+- 🎨 **4 Writing Styles**: Formal, sensational, fun, and normal
+- 🌐 **4 Topic Domains**: Politics, business, sports, and technology
+- 🖼️ **Image Support**: Generate content from images or real news URLs
 
-### User Interface
-- **Interactive 3D Guide**: Engaging onboarding experience
-- **History Management**: View detection and generation history
-- **Data Visualization**: Statistics and charts by style and topic
-- **PDF Export**: Export detection and generation results as PDFs
-- **Authentication**: Email/password and OAuth (Google) login support
+### User Experience
+- 🎯 **Interactive 3D Guide**: Engaging onboarding experience
+- 📈 **Analytics Dashboard**: View history and statistics
+- 📄 **PDF Export**: Export detection and generation results
+- 🔐 **Authentication**: Email/password and Google OAuth support
 
 ---
 
-## 🏗️ System Architecture
+## 🚀 Quick Start
 
-The system consists of four main components:
+### Prerequisites
 
-1. **Generation Module**: Creates synthetic fake news using GPT-4o with various strategies and styles
-2. **Detection Module**: Multi-model fusion detection with external fact verification
-3. **User Interface Module**: React-based frontend with interactive components
-4. **Backend Infrastructure**: FastAPI backend with MongoDB for data persistence
+- Python 3.8+
+- Node.js 16+
+- Docker (for MongoDB)
+- OpenAI API Key
 
----
-
-## 📦 Prerequisites
-
-Before installing, ensure you have the following installed on your system:
-
-- **Python 3.8+** (Python 3.9 or 3.10 recommended)
-- **Node.js 16+** (Node.js 18+ recommended)
-- **npm** or **yarn** (comes with Node.js)
-- **Docker** and **Docker Compose** (for MongoDB, optional)
-- **Git**
-
-### Verify Prerequisites
+### Installation
 
 ```bash
-# Check Python version
-python3 --version
+# Clone the repository
+git clone https://github.com/Adammm12310/comp9900_git_primer.git
+cd comp9900_git_primer
 
-# Check Node.js version
-node --version
-
-# Check npm version
-npm --version
-
-# Check Docker (optional, for MongoDB)
-docker --version
-docker-compose --version
-```
-
----
-
-## 🔧 Installation
-
-### Step 1: Clone the Repository
-
-```bash
-git clone https://github.com/unsw-cse-comp99-3900/capstone-project-25t3-9900-f12a-almond.git
-cd capstone-project-25t3-9900-f12a-almond
-```
-
-### Step 2: Set Up MongoDB Database
-
-#### Option A: Using Docker Compose (Recommended)
-
-```bash
+# Start MongoDB
 cd backend
-docker-compose -f docker-compose.mongo.yml up -d
-```
+docker compose -f docker-compose.mongo.yml up -d
 
-This will start:
-- **MongoDB** on port `27017`
-- **Mongo Express** (web UI) on port `8081`
-
-**MongoDB Credentials:**
-- Username: `admin`
-- Password: `admin123`
-- Database: `fakenews_db`
-
-**Access Mongo Express**: http://localhost:8081
-
-#### Option B: Install MongoDB Locally
-
-If you prefer to install MongoDB locally:
-
-1. **macOS** (using Homebrew):
-   ```bash
-   brew tap mongodb/brew
-   brew install mongodb-community
-   brew services start mongodb-community
-   ```
-
-2. **Linux** (Ubuntu/Debian):
-   ```bash
-   sudo apt-get install -y mongodb
-   sudo systemctl start mongodb
-   ```
-
-3. **Windows**: Download and install from [MongoDB website](https://www.mongodb.com/try/download/community)
-
-### Step 3: Backend Setup
-
-```bash
-cd backend
-
-# Option 1: Use automatic setup script (Recommended)
-chmod +x setup.sh
+# Install backend dependencies
 ./setup.sh
+# Or manually: pip3 install -r requirements.txt
 
-# Option 2: Manual setup
-# Create logs directory
-mkdir -p logs
+# Configure API keys
+cp .env.example .env
+# Edit .env and add your API keys
 
-# Install Python dependencies
-pip3 install -r requirements.txt
-
-# Download spaCy English model (Required)
-python3 -m spacy download en_core_web_sm
-
-# Download NLTK data (Required)
-python3 <<EOF
-import nltk
-nltk.download('punkt', quiet=True)
-nltk.download('stopwords', quiet=True)
-nltk.download('averaged_perceptron_tagger', quiet=True)
-EOF
-```
-
-**Note**: The `setup.sh` script handles all of the above automatically!
-
-### Step 4: Frontend Setup
-
-```bash
-# From project root directory
+# Install frontend dependencies
+cd ..
 npm install
 ```
 
-This will install all frontend dependencies including React, TypeScript, Vite, and UI libraries.
+### Running the System
+
+```bash
+# Terminal 1: Start backend
+cd backend
+python3 main.py
+
+# Terminal 2: Start frontend
+npm run dev
+```
+
+**Access the application**: http://localhost:5173
+
+---
+
+## 📖 Documentation
+
+- 📦 **[Setup Guide](docs/SETUP.md)** - Detailed installation instructions
+- 🔧 **[Troubleshooting](docs/TROUBLESHOOTING.md)** - Common issues and solutions
+- 🌐 **[API Documentation](docs/API.md)** - Complete API reference
+- 📊 **[Swagger UI](http://localhost:8000/docs)** - Interactive API docs (when running)
+
+---
+
+## 🏗️ Architecture
+
+```
+┌─────────────────┐
+│   Frontend      │  React + TypeScript + Vite
+│   (Port 5173)   │
+└────────┬────────┘
+         │
+         ↓
+┌─────────────────┐
+│   Backend API   │  FastAPI + Python
+│   (Port 8000)   │
+└────────┬────────┘
+         │
+    ┌────┴────┬────────────┬──────────┐
+    ↓         ↓            ↓          ↓
+┌────────┐ ┌──────┐ ┌───────────┐ ┌──────┐
+│MongoDB │ │GPT-4 │ │  RoBERTa  │ │ CLIP │
+│(27017) │ │ API  │ │   Model   │ │Model │
+└────────┘ └──────┘ └───────────┘ └──────┘
+```
+
+### Tech Stack
+
+**Frontend:**
+- React 19 with TypeScript
+- Vite for build tooling
+- Tailwind CSS for styling
+- Three.js for 3D visualizations
+
+**Backend:**
+- FastAPI (Python)
+- OpenAI GPT-4 API
+- Transformers (RoBERTa, CLIP)
+- MongoDB for data persistence
+- Tavily API for fact verification
+
+---
+
+## 🎯 Usage Examples
+
+### Detection
+
+```bash
+curl -X POST http://localhost:8000/api/detect/improved \
+  -H "Content-Type: application/json" \
+  -d '{"text": "Your news article here..."}'
+```
+
+### Generation
+
+```bash
+curl -X POST http://localhost:8000/api/generate/single \
+  -H "Content-Type: application/json" \
+  -d '{
+    "topic": "Climate change breakthrough",
+    "strategy": "loaded_language",
+    "style": "sensational"
+  }'
+```
+
+See [API Documentation](docs/API.md) for complete examples.
+
+---
+
+## 📁 Project Structure
+
+```
+.
+├── backend/                 # Backend Python application
+│   ├── main.py             # FastAPI entry point
+│   ├── services/           # Core services (detection, generation)
+│   ├── utils/              # Utilities (auth, verification)
+│   ├── .env                # Environment variables
+│   └── requirements.txt    # Python dependencies
+│
+├── src/                    # Frontend React application
+│   ├── pages/             # Page components
+│   ├── components/        # Reusable components
+│   └── services/          # API client
+│
+├── docs/                   # Documentation
+│   ├── SETUP.md           # Setup guide
+│   ├── TROUBLESHOOTING.md # Troubleshooting
+│   └── API.md             # API reference
+│
+├── public/                # Static assets
+├── package.json           # Frontend dependencies
+└── README.md             # This file
+```
 
 ---
 
 ## ⚙️ Configuration
 
-### Backend Configuration
+### Required Environment Variables
 
-Create a `.env` file in the `backend/` directory:
-
-```bash
-cd backend
-nano .env  # or use your preferred text editor
-```
-
-Add the following configuration:
+Create `backend/.env` with these required variables:
 
 ```env
-# OpenAI API Key (Required for generation and detection)
+# API Provider (openai or deepseek)
+API_PROVIDER=openai
+
+# OpenAI API Key (Required)
 OPENAI_API_KEY=your_openai_api_key_here
 
-# Tavily API Key (Optional, for enhanced fact verification)
-TAVILY_API_KEY=your_tavily_api_key_here
-
-# News API Key (Optional, has default public key)
-NEWS_API_KEY=your_news_api_key_here
-
-# SerpAPI Key (Optional, for Google News search)
-SERPAPI_KEY=your_serpapi_key_here
-
-# MongoDB Configuration
+# MongoDB (default Docker config)
 MONGODB_URL=mongodb://admin:admin123@localhost:27017/fakenews_db?authSource=admin
-MONGODB_HOST=127.0.0.1
-MONGODB_PORT=27017
-MONGODB_DATABASE=fakenews_db
-MONGODB_USER=admin
-MONGODB_PASSWORD=admin123
 
-# Logging Configuration
-LOG_LEVEL=INFO
-LOG_FILE=logs/fakenews.log
-
-# Security Configuration (Optional)
-SECRET_KEY=your-secret-key-here
-JWT_SECRET_KEY=your-jwt-secret-key-here
-JWT_ACCESS_TOKEN_EXPIRE_MINUTES=60
-
-# PDF Configuration
-PDF_STORAGE_BASE_PATH=storage
-PDF_AUTO_GENERATE=true
+# Optional: Tavily for fact verification
+TAVILY_API_KEY=your_tavily_api_key_here
 ```
 
-**Important**: Replace placeholder values with your actual API keys.
+**Get API Keys:**
+- OpenAI: https://platform.openai.com/api-keys
+- Tavily: https://tavily.com/
+- DeepSeek: https://platform.deepseek.com/
 
-### Getting API Keys
-
-1. **OpenAI API Key** (Required):
-   - Visit https://platform.openai.com/api-keys
-   - Create a new API key
-   - Copy and paste into `.env` file
-
-2. **Tavily API Key** (Optional but recommended):
-   - Visit https://tavily.com/
-   - Sign up and get your API key
-   - Copy and paste into `.env` file
-
-3. **News API Key** (Optional):
-   - Visit https://newsapi.org/
-   - Sign up for free tier
-   - Copy and paste into `.env` file
-
-### Frontend Configuration
-
-The frontend automatically connects to the backend at `http://localhost:8000`. If your backend runs on a different port, create a `.env` file in the project root:
-
-```env
-VITE_API_BASE_URL=http://localhost:8000
-```
-
----
-
-## 🚀 Running the System
-
-### Start MongoDB (if using Docker)
-
-```bash
-cd backend
-docker-compose -f docker-compose.mongo.yml up -d
-```
-
-To stop MongoDB:
-```bash
-docker-compose -f docker-compose.mongo.yml down
-```
-
-### Start Backend Server
-
-```bash
-cd backend
-python3 main.py
-```
-
-The backend will start on **http://localhost:8000**
-
-You should see output like:
-```
-INFO:     Started server process
-INFO:     Waiting for application startup.
-INFO:     Application startup complete.
-INFO:     Uvicorn running on http://0.0.0.0:8000
-```
-
-### Start Frontend Server
-
-Open a **new terminal window** and run:
-
-```bash
-# From project root
-npm run dev
-```
-
-The frontend will start on **http://localhost:5173** (or 5174 if 5173 is busy)
-
-You should see output like:
-```
-  VITE v7.x.x  ready in xxx ms
-
-  ➜  Local:   http://localhost:5173/
-  ➜  Network: use --host to expose
-```
-
-### Verify Installation
-
-1. **Check Backend Health**:
-   ```bash
-   curl http://localhost:8000/health
-   ```
-   Should return: `{"status":"healthy",...}`
-
-2. **Check Frontend**:
-   Open http://localhost:5173 in your browser
-
-3. **Check MongoDB** (if using Docker):
-   ```bash
-   docker ps | grep mongo
-   ```
-   Should show running MongoDB container
-
----
-
-## 🌐 Access Points
-
-Once the system is running, you can access:
-
-- **Frontend Application**: http://localhost:5173
-- **Backend API**: http://localhost:8000
-- **API Documentation (Swagger UI)**: http://localhost:8000/docs
-- **Alternative API Docs (ReDoc)**: http://localhost:8000/redoc
-- **Health Check Endpoint**: http://localhost:8000/health
-- **Mongo Express** (if using Docker): http://localhost:8081
+See [Setup Guide](docs/SETUP.md) for complete configuration options.
 
 ---
 
 ## 🧪 Testing
 
-### Running Backend Tests
-
-The project includes unit tests for core services:
+### Run Backend Tests
 
 ```bash
 cd backend
@@ -345,396 +242,110 @@ python3 -m unittest tests.test_services -v
 
 ### Manual Testing
 
-For manual testing of the full system:
-
-1. **Test Generation**:
-   - Go to http://localhost:5173
-   - Navigate to "Generate" page
-   - Enter a topic or URL
-   - Click "Generate"
-
-2. **Test Detection**:
-   - Go to http://localhost:5173
-   - Navigate to "Detection" page
-   - Paste some text or upload an image
-   - Click "Detect"
-
-3. **Test Authentication**:
-   - Click "Sign In" or "Sign Up"
-   - Create an account or use OAuth
+1. Open http://localhost:5173
+2. Create an account or sign in
+3. Try detection with sample text
+4. Generate fake news with different strategies
+5. View your history and statistics
 
 ---
 
-## 🔍 Troubleshooting
+## 🐛 Troubleshooting
 
-### Backend Issues
+Having issues? Check these first:
 
-#### Problem: "ModuleNotFoundError" or Import Errors
+- ✅ All services running (backend, frontend, MongoDB)
+- ✅ API keys configured in `backend/.env`
+- ✅ No port conflicts (8000, 5173, 27017)
+- ✅ Python 3.8+ and Node.js 16+ installed
 
-**Solution**:
-```bash
-cd backend
-pip3 install -r requirements.txt --force-reinstall
-```
-
-#### Problem: "spaCy model not found"
-
-**Solution**:
-```bash
-python3 -m spacy download en_core_web_sm
-```
-
-#### Problem: "NLTK data not found"
-
-**Solution**:
-```bash
-python3 <<EOF
-import nltk
-nltk.download('punkt')
-nltk.download('stopwords')
-nltk.download('averaged_perceptron_tagger')
-EOF
-```
-
-#### Problem: Models Fail to Load (RoBERTa, CLIP, etc.)
-
-**Solution**: This is normal - the system gracefully degrades. GPT-4 detection will still work. The system continues to function with available models.
-
-#### Problem: "MongoDB connection failed"
-
-**Solution**:
-1. Check if MongoDB is running:
-   ```bash
-   docker ps | grep mongo
-   # or
-   mongosh --eval "db.adminCommand('ping')"
-   ```
-
-2. Verify MongoDB URL in `.env` file matches your setup
-
-3. If using Docker, restart MongoDB:
-   ```bash
-   docker-compose -f docker-compose.mongo.yml restart
-   ```
-
-#### Problem: "OPENAI_API_KEY not found"
-
-**Solution**: Ensure `.env` file exists in `backend/` directory and contains a valid `OPENAI_API_KEY`.
-
-#### Problem: Port 8000 Already in Use
-
-**Solution**:
-```bash
-# Find process using port 8000
-lsof -ti:8000
-
-# Kill the process
-kill -9 $(lsof -ti:8000)
-
-# Or change port in main.py
-```
-
-### Frontend Issues
-
-#### Problem: "Cannot connect to backend"
-
-**Solution**:
-1. Verify backend is running on http://localhost:8000
-2. Check browser console for CORS errors
-3. Verify `VITE_API_BASE_URL` in frontend `.env` (if set)
-
-#### Problem: "npm install fails"
-
-**Solution**:
-```bash
-# Clear npm cache
-npm cache clean --force
-
-# Delete node_modules and reinstall
-rm -rf node_modules package-lock.json
-npm install
-```
-
-#### Problem: Port 5173 Already in Use
-
-**Solution**: Vite will automatically use the next available port (5174, 5175, etc.)
-
-### Database Issues
-
-#### Problem: "MongoDB authentication failed"
-
-**Solution**: Verify credentials in `.env` match MongoDB setup:
-- Default Docker credentials: `admin` / `admin123`
-- Update `MONGODB_URL` if using different credentials
-
-#### Problem: "Database not found"
-
-**Solution**: MongoDB will create the database automatically on first use. Ensure MongoDB is running and accessible.
-
-### Performance Issues
-
-#### Problem: Slow model loading on first run
-
-**Solution**: This is normal. Models are downloaded and cached on first use. Subsequent runs will be faster.
-
-#### Problem: Generation takes too long (>60 seconds)
-
-**Solution**:
-- Check internet connection (GPT-4 API calls)
-- Verify OpenAI API key is valid
-- Check backend logs for errors
-
----
-
-## 📁 Project Structure
-
-```
-capstone-project-25t3-9900-f12a-almond/
-├── backend/                    # Backend Python code
-│   ├── main.py                # FastAPI application entry point
-│   ├── config.py              # Configuration management
-│   ├── requirements.txt       # Python dependencies
-│   ├── setup.sh              # Automated setup script
-│   ├── start.sh              # Start script
-│   ├── .env                  # Environment variables (create this)
-│   ├── docker-compose.mongo.yml  # MongoDB Docker configuration
-│   ├── services/             # Service modules
-│   │   ├── detection_service.py      # Baseline detection
-│   │   ├── improved_detection.py     # Advanced detection
-│   │   ├── generation_service.py     # Fake news generation
-│   │   ├── vision_service.py         # Image analysis
-│   │   ├── news_service.py           # News API integration
-│   │   ├── find_news.py              # News search and ranking
-│   │   ├── pdf_service.py            # PDF generation
-│   │   └── mongo_service.py          # Database operations
-│   ├── utils/                # Utility modules
-│   │   ├── security.py       # Authentication and JWT
-│   │   ├── tavily_verifier.py    # Tavily fact verification
-│   │   └── wikipedia_verifier.py # Wikipedia verification
-│   ├── tests/                # Test files
-│   │   └── test_services.py  # Unit tests
-│   ├── storage/              # Generated PDFs and files
-│   └── logs/                 # Application logs
-│
-├── src/                      # Frontend React code
-│   ├── pages/               # Page components
-│   │   ├── Home.tsx         # Landing page
-│   │   ├── Detection.tsx    # Detection page
-│   │   ├── Generate.tsx     # Generation page
-│   │   ├── Result.tsx       # Results display
-│   │   ├── Profile.tsx      # User profile and history
-│   │   └── Sign-in.tsx      # Authentication pages
-│   ├── components/          # Reusable components
-│   │   ├── Book/           # 3D interactive guide
-│   │   ├── Profile/        # Profile and statistics
-│   │   └── ui/             # UI components
-│   ├── services/           # API service layer
-│   │   └── api.ts          # API client
-│   └── main.tsx            # React entry point
-│
-├── public/                  # Static assets
-├── package.json            # Frontend dependencies
-├── vite.config.ts          # Vite configuration
-└── README.md              # This file
-```
-
----
-
-## 🔑 API Endpoints
-
-### Detection Endpoints
-
-- `POST /api/detect/improved` - Advanced detection with multi-model fusion
-- `POST /api/detect/baseline` - Baseline detection using individual models
-
-### Generation Endpoints
-
-- `POST /api/generate/single` - Generate fake news article
-- `GET /api/generate/strategies` - Get available generation strategies
-
-### Authentication Endpoints
-
-- `POST /api/auth/register` - User registration
-- `POST /api/auth/login` - User login
-- `POST /api/auth/firebase_sync` - Firebase OAuth sync
-
-### History and Export
-
-- `GET /api/history/detection` - Get detection history
-- `GET /api/history/generation` - Get generation history
-- `GET /api/pdf/{record_id}` - Download PDF report
-
-### Utility Endpoints
-
-- `GET /health` - Health check
-- `GET /docs` - API documentation (Swagger UI)
-
----
-
-## 🛠️ Development
-
-### Backend Development
-
-```bash
-cd backend
-python3 main.py
-```
-
-The backend uses:
-- **FastAPI** for the web framework
-- **Uvicorn** as the ASGI server
-- **Pydantic** for data validation
-- **MongoDB** for data persistence
-
-### Frontend Development
-
-```bash
-npm run dev
-```
-
-The frontend uses:
-- **React 19** with TypeScript
-- **Vite** for build tooling
-- **Tailwind CSS** for styling
-- **React Router** for navigation
-
-### Building for Production
-
-**Frontend**:
-```bash
-npm run build
-```
-
-**Backend**:
-```bash
-# Backend runs directly with Python
-# For production, use a process manager like PM2 or systemd
-```
-
----
-
-## 📝 Environment Variables Reference
-
-### Required Variables
-
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `OPENAI_API_KEY` | OpenAI API key for GPT-4 | `sk-proj-...` |
-
-### Optional Variables
-
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `TAVILY_API_KEY` | Tavily API key for fact verification | None |
-| `NEWS_API_KEY` | News API key | Public key provided |
-| `SERPAPI_KEY` | SerpAPI key for Google News | None |
-| `MONGODB_URL` | MongoDB connection string | `mongodb://admin:admin123@localhost:27017/fakenews_db` |
-| `LOG_LEVEL` | Logging level | `INFO` |
-| `PDF_AUTO_GENERATE` | Auto-generate PDFs | `true` |
-
----
-
-## 🐳 Docker Usage
-
-### Start MongoDB with Docker
-
-```bash
-cd backend
-docker-compose -f docker-compose.mongo.yml up -d
-```
-
-### Stop MongoDB
-
-```bash
-docker-compose -f docker-compose.mongo.yml down
-```
-
-### View MongoDB Logs
-
-```bash
-docker-compose -f docker-compose.mongo.yml logs -f
-```
-
-### Reset MongoDB Data
-
-```bash
-docker-compose -f docker-compose.mongo.yml down -v
-docker-compose -f docker-compose.mongo.yml up -d
-```
+See [Troubleshooting Guide](docs/TROUBLESHOOTING.md) for detailed solutions.
 
 ---
 
 ## 📊 System Requirements
 
-### Minimum Requirements
+**Minimum:**
+- CPU: 2 cores
+- RAM: 4GB
+- Storage: 5GB free
+- Internet connection
 
-- **CPU**: 2 cores
-- **RAM**: 4GB
-- **Storage**: 5GB free space (for models and dependencies)
-- **Internet**: Required for API calls and model downloads
+**Recommended:**
+- CPU: 4+ cores
+- RAM: 8GB+
+- Storage: 10GB+ free
+- Stable internet connection
 
-### Recommended Requirements
+---
 
-- **CPU**: 4+ cores
-- **RAM**: 8GB+
-- **Storage**: 10GB+ free space
-- **Internet**: Stable connection for real-time API calls
+## 🌐 Access Points
+
+Once running, access these URLs:
+
+- **Frontend**: http://localhost:5173
+- **Backend API**: http://localhost:8000
+- **API Docs (Swagger)**: http://localhost:8000/docs
+- **API Docs (ReDoc)**: http://localhost:8000/redoc
+- **Health Check**: http://localhost:8000/health
+- **Mongo Express**: http://localhost:8081 (if using Docker)
 
 ---
 
 ## 🔒 Security Notes
 
-1. **Never commit `.env` files** to version control
-2. **Use strong passwords** for MongoDB in production
-3. **Rotate API keys** regularly
-4. **Enable HTTPS** in production
-5. **Validate all user inputs** (handled by Pydantic)
+- Never commit `.env` files to version control
+- Use strong passwords for MongoDB in production
+- Rotate API keys regularly
+- Enable HTTPS in production environments
 
 ---
 
-## 📚 Additional Resources
-
-- [FastAPI Documentation](https://fastapi.tiangolo.com/)
-- [React Documentation](https://react.dev/)
-- [MongoDB Documentation](https://docs.mongodb.com/)
-- [OpenAI API Documentation](https://platform.openai.com/docs)
-
----
-
-## 🤝 Contributing
-
-This is a capstone project. For contributions, please contact the project maintainers.
-
----
-
-## 📄 License
+## 📝 License
 
 This project is part of a capstone course at UNSW.
 
 ---
 
-## 🆘 Support
+## 🤝 Contributing
 
-For issues or questions:
-1. Check the [Troubleshooting](#troubleshooting) section
-2. Review backend logs: `backend/logs/fakenews.log`
-3. Check browser console for frontend errors
-4. Verify all services are running and accessible
+This is an academic project. For contributions, please contact the project maintainers.
 
 ---
 
-## ✅ Quick Start Checklist
+## 👥 Team
 
-- [ ] Clone repository
-- [ ] Install prerequisites (Python 3.8+, Node.js 16+)
-- [ ] Start MongoDB (Docker or local)
-- [ ] Run `backend/setup.sh` or manual setup
-- [ ] Create `backend/.env` with API keys
-- [ ] Install frontend dependencies: `npm install`
-- [ ] Start backend: `cd backend && python3 main.py`
-- [ ] Start frontend: `npm run dev`
-- [ ] Access http://localhost:5173
+Developed by Team Almond as part of COMP9900 Capstone Project at UNSW.
 
 ---
 
-**Last Updated**: November 2025
+## 📞 Support
+
+- 📖 **Documentation**: Check the [docs](docs/) directory
+- 🐛 **Issues**: Review the [Troubleshooting Guide](docs/TROUBLESHOOTING.md)
+- 💬 **Questions**: Create an issue on GitHub
+
+---
+
+## 🗺️ Roadmap
+
+- [ ] Add more AI models (BERT, XLNet)
+- [ ] Implement WebSocket for real-time updates
+- [ ] Add multi-language support
+- [ ] Mobile app development
+- [ ] Enhanced visualization tools
+
+---
+
+## ⭐ Acknowledgments
+
+- OpenAI for GPT-4 API
+- Hugging Face for transformer models
+- Tavily for fact-checking API
+- UNSW for project support
+
+---
+
+**Made with ❤️ by Team Almond**
+
+*Last Updated: December 2025*
